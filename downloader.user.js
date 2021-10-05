@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GitHub Classroom Assignments Downloader
-// @version      1.0
+// @version      1.1
 // @description  Add some buttons to download assignment zip in GitHub classroom
 // @author       rogeraabbccdd
 // @match        https://classroom.github.com/*
@@ -23,9 +23,21 @@ const downloadBtnHTML = (url) => `
 `
 
 const downloadAllBtnHTML =
-  `<a id="js-download-all-btn" class="btn desktop-modal-btn assistant-modal-btn" aria-label="Download all repos in this page.">
-    Download all repos ZIP in this page.
+`
+<li class="dropdown-divider" role="separator"></li>
+<li>
+  <a id="js-download-all-btn" class="dropdown-item ws-normal" href="#">
+    <h5>
+      <svg class="octicon octicon-repo" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+        <path fill-rule="evenodd"
+          d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+        </path>
+      </svg>
+      Download repositories
+    </h5>
+    <p class="py-1 mb-0 text-small text-gray">Download all repos ZIP in this page.</p>
   </a>
+</li>
 `
 
 const editDOM = async () => {
@@ -45,10 +57,7 @@ const editDOM = async () => {
           BtnGroup.insertAdjacentHTML('beforeend', downloadBtnHTML(url))
         }
 
-        document.getElementById('js-modal-download-repos').insertAdjacentHTML('beforeend', downloadAllBtnHTML)
-
-        const modalheight = parseInt(document.getElementsByClassName('assistant-modal-dropdown-menu')[0].style.height, 10)
-        document.getElementsByClassName('assistant-modal-dropdown-menu')[0].style.height = (modalheight + 41) + 'px'
+        document.querySelector('summary.btn.btn-sm.btn-primary').nextElementSibling.querySelector('ul').insertAdjacentHTML('beforeend', downloadAllBtnHTML)
 
         const downloadAllBtn = document.getElementById('js-download-all-btn')
         downloadAllBtn.onclick = () => {
